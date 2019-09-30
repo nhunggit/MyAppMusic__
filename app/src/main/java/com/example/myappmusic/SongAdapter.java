@@ -16,6 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
@@ -60,7 +63,10 @@ private OnClickItemView monClickItemView;
 
     @Override
     public int getItemCount() {
-        return 0;
+        if(mSong!=null)
+            return  mSong.size();
+        else
+            return 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -77,6 +83,7 @@ private OnClickItemView monClickItemView;
             mMore=itemView.findViewById(R.id.more);
         }
     }
+
     interface OnClickItemView{
         void clickItem(Song song);
     }
@@ -91,20 +98,31 @@ private OnClickItemView monClickItemView;
             if(charSequence==null||charSequence.length()==0){
                 filterList.addAll(mListSong);
             }else{
-                String filterPattern=unAcc
+                String filterPattern=unAccent(charSequence.toString().toLowerCase().trim());
+
+                for(Song song:mListSong){
+                    if(unAccent(song.getTitle().toLowerCase()).contains(filterPattern)){
+                        filterList.add(song);
+                    }
+                }
             }
-            return null;
+
+            FilterResults results=new FilterResults();
+            results.values=filterList;
+            return results;
         }
 
         @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            mSong.clear();
+            mSong.addAll((Collection<? extends Song>) filterResults.values);
+            notifyDataSetChanged();
         }
-    }
+    };
     public static String unAccent(String s){
         String temp= Normalizer.normalize(s, Normalizer.Form.NFD);
         Pattern pattern=Pattern.compile("\\p{InCOMBINING_DIACRITICAL_MARKS}+");
-        return pattern.matcher(temp).replaceAll("").replaceAll("")
+        return pattern.matcher(temp).replaceAll("").replaceAll("Đ","D").replace("đ","d");
     }
 
 }
