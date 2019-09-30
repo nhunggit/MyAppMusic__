@@ -1,9 +1,11 @@
 package com.example.myappmusic;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -11,8 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
 private ArrayList<Song> mListSong=new ArrayList<>();
@@ -42,6 +46,15 @@ private OnClickItemView monClickItemView;
             holder.mNameSong.setText(current.getTitle());
             SimpleDateFormat formatTime=new SimpleDateFormat("mm:ss");
             holder.mHours.setText(formatTime.format(current.getDuration()));
+
+            final Song finalCurrent=current;
+            holder.mConstraintLayout.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View v) {
+                    monClickItemView.clickItem(finalCurrent);
+                }
+            });
         }
     }
 
@@ -67,4 +80,31 @@ private OnClickItemView monClickItemView;
     interface OnClickItemView{
         void clickItem(Song song);
     }
+    public Filter getFiler(){
+        return filter;
+    }
+    private Filter filter=new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            ArrayList<Song> filterList=new ArrayList<>();
+            Log.d("ok",charSequence+"//");
+            if(charSequence==null||charSequence.length()==0){
+                filterList.addAll(mListSong);
+            }else{
+                String filterPattern=unAcc
+            }
+            return null;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+
+        }
+    }
+    public static String unAccent(String s){
+        String temp= Normalizer.normalize(s, Normalizer.Form.NFD);
+        Pattern pattern=Pattern.compile("\\p{InCOMBINING_DIACRITICAL_MARKS}+");
+        return pattern.matcher(temp).replaceAll("").replaceAll("")
+    }
+
 }
