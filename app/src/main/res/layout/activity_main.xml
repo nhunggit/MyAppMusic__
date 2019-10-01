@@ -8,10 +8,10 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-   <FrameLayout
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:id="@+id/fragment_layout"
-       />
 
+   <fragment
+       android:id="@+id/fragment4"
+       android:name="com.example.myappmusic.ListSongFragment"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content" />
 </androidx.drawerlayout.widget.DrawerLayout>
