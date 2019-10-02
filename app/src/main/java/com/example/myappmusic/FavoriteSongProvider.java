@@ -21,7 +21,7 @@ public class FavoriteSongProvider extends ContentProvider {
     private static final int DB_VERSION=1;
    static final String CONTENT_PATH="listsongs";
     static final Uri CONTENT_URI=Uri.parse("content://" + AUTHORITY + "/" +CONTENT_PATH );
-    private static final String TABLE_FAVORITESONGS="favaritesongs";
+    static String TABLE_FAVORITESONGS="favaritesongs";
     static final String ID_FAVORITE="id";
     static final String ID_PROVIDER="id_provider";
     static final String FAVORITE="is_favorite";
@@ -37,6 +37,7 @@ public class FavoriteSongProvider extends ContentProvider {
     private static final int URI_ALL_ITEM_CODE=1;
     private static final int URI_ONE_ITEM_CODE=2;
     private SQLiteDatabase database;
+   static final String Fava  = "";
     private  static class FavoriteSongDatabase extends SQLiteOpenHelper{
 
         public FavoriteSongDatabase(@Nullable Context context) {

@@ -118,7 +118,7 @@ private String mTypeSong="";
                             switch (item.getItemId()){
                                 case R.id.addFavorite:
                                     ContentValues values=new ContentValues();
-                                    values.put(Fava)
+                                    values.put(FavoriteSongProvider.ID_PROVIDER,"");
                             }
                         }
                     });
